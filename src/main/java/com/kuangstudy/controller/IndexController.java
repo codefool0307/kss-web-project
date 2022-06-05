@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -89,9 +90,18 @@ public class IndexController {
      * Description: 异步方式首页
      * @throws Exception
      */
-    @GetMapping(value = {"/","/newsindex"})
+   /* @GetMapping(value = {"/","/newsindex"})
     public ModelAndView newindex() {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("newsindex");
+        return modelAndView;
+    }*/
+
+    @GetMapping(value = {"/","/newsindex"})
+    public ModelAndView newindex(String cid) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("blogCategories", blogCategoryService.findBlogCategies());
+        modelAndView.addObject("cid", Optional.ofNullable(cid).orElse("0"));
         modelAndView.setViewName("newsindex");
         return modelAndView;
     }

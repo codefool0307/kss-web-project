@@ -9,6 +9,15 @@
     <title>资源广场</title>
     <link href="/css/app.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/animate.css"/>
+    <style>
+        .ksquare-loading{text-align: center;padding-bottom: 100px}
+        .ksd-emtpy{padding:40px 0;text-align: center;font-size: 48px;}
+        .ksd-square-loading{color:#fff;letter-spacing: 0.1em;}
+        .ksd-square-loading .nbtn{padding:10px 0}
+        .ksd-square-loading button{color:#fff;}
+        .ksd-no-bottom{text-align: center;font-size: 16px;padding:40px 0;}
+    </style>
 </head>
 <body>
 <div outline="0" hidefocus="true" id="app">
@@ -22,7 +31,7 @@
             Mou小可爱的广场
         </div>
         <div class="square-desc">
-            即刻获取常用设计资源，设计快人一步
+            即刻获取常用设计资源，设计快人一步<input type="hidden" id="cid"  value="${cid}">
         </div>
         <div class="square-operation">
             <div  class="square-operation-container">
@@ -54,7 +63,7 @@
                         {{index+1}}:{{blog.categoryTitle}}
                     </div> -->
                     <!--click方式-->
-                    <div  class="p4 square-operation-item active" :class="[cindex==-1 ?'active':'']" @click="searchByCid(0,-1)">
+                    <div  class="p4 square-operation-item" :class="[cindex==-1 ?'active':'']" @click="searchByCid(0,-1)">
                     全部
                    </div>
                     <div class="p4 square-operation-item" :class="[index==cindex ?'active':'']" @click="searchByCid(blog.id,index)" v-for="(blog,index) in blogCategories">
@@ -63,23 +72,27 @@
             </div>
         </div>
         <!---->
-        <div  id="square-item-container" class="square-item-container">
-            <div v-for="(blog,index) in blogList " class="square-item-detail resource-item-hover">
-                <a :href="'/detail/'+blog.id" :title="blog.title" target="_blank" style="color: #fff"><div class="square-item-wrapper" :style="'background: url('+blog.img+') 0% 0% / 100% 100%;'"></div></a>
-                <div class="square-item-desc p5">
+            <div id="square-item-container" class="square-item-container" style="overflow: hidden">
+                <div v-for="(blog,index) in blogList "
+                     :class="'square-item-detail  animate__animated animate__fadeInLeft animate__delay-'+((index+1)%20)+'s'">
                     <a :href="'/detail/'+blog.id" :title="blog.title" target="_blank" style="color: #fff">
-                        <span class="square-item-name truncate">{{blog.title}} </span>
-                        <span class="square-item-count">
+                        <div class="square-item-wrapper"
+                             :style="'background: url('+blog.img+') 0% 0% / 100% 100%;'"></div>
+                    </a>
+                    <div class="square-item-desc p5">
+                        <a :href="'/detail/'+blog.id" :title="blog.title" target="_blank" style="color: #fff">
+                            <span class="square-item-name truncate">{{blog.title}} </span>
+                            <span class="square-item-count">
             <svg width="1em" height="1em" viewbox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
                  style="font-size: inherit; transform: rotate(0deg);">
              <path fill-rule="evenodd" clip-rule="evenodd"
                    d="M9.11011 6.00338L9.36465 6.25659C9.48212 6.37344 9.48212 6.56288 9.36465 6.67973L7.42392 8.61025C7.18898 8.84394 6.80808 8.84394 6.57315 8.61025L4.63239 6.6797C4.51492 6.56286 4.51492 6.37341 4.63239 6.25656L4.88699 6.0033C5.00446 5.88645 5.19491 5.88645 5.31237 6.0033L6.51772 7.2023L6.51728 2.30172C6.51726 2.13647 6.65191 2.0025 6.81803 2.00248L7.17806 2.00244C7.34418 2.00242 7.47887 2.13637 7.47888 2.30162L7.47933 7.20242L8.68472 6.00338C8.80219 5.88654 8.99264 5.88654 9.11011 6.00338ZM10.9983 10.9973H3.00195V8.29989C3.00195 8.13421 2.86764 7.99989 2.70195 7.99989H2.30195C2.13627 7.99989 2.00195 8.13421 2.00195 8.29989V11.3973C2.00195 11.7287 2.27058 11.9973 2.60195 11.9973H11.3983C11.7297 11.9973 11.9983 11.7287 11.9983 11.3973V8.29989C11.9983 8.13421 11.864 7.99989 11.6983 7.99989H11.2983C11.1326 7.99989 10.9983 8.13421 10.9983 8.29989V10.9973Z"
                    fill="currentcolor"></path>
             </svg><span> 1215 </span></span>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
         <div v-if="total==0" style="text-align: center;font-size: 48px;">
             <div>数据还在造就中...</div>
@@ -97,81 +110,7 @@
 
 <script src="/js/vue.min.js"></script>
 <script src="/js/axios.min.js"></script>
-<script>
-    var vue = new Vue({
-        el: "#app",
-        data: {
-            blogCategories: [],
-            cid:0,
-            cindex:-1,
-            blogList:[],
-            pageNo:1,
-            total:0,
-            pages:0,
-            pageSize:4
-        },
-        created: function () {
-            // 页面执行加载异步事件方法
-            this.loadCategory();
-            this.loadBlogContent();
-        },
-        methods: {
-            // 分类查询
-            loadCategory: function () {
-                var that = this;
-                axios.get("/api/blogcategory/load").then(function (res) {
-                    that.blogCategories = res.data;
-                });
-            },
-            //click方式，注意修改分类id
-            searchByCid: function (cid,index){
-                this.cid = cid;
-                this.cindex = index;
-                // 为什么要清空呢？因为每次点击是一次全新的搜索，必须先清空，把分页置到第一页即可
-                //比如说我已经到了第4页了，我去点击了分类id，那么是从第4页开始
-                this.blogList = [];//覆盖式不需要清空了
-                this.pageNo = 1;
-                this.loadBlogContent();
-            },
-            //vue的active增设，注意修改分类id
-           /* searchByCid: function (index){
-                this.cid = this.blogCategories[index].id;
-                this.cindex = index;
-                // 为什么要清空呢？因为每次点击是一次全新的搜索，必须先清空，把分页置到第一页即可
-                //比如说我已经到了第4页了，我去点击了分类id，那么是从第4页开始
-                this.blogList = [];//覆盖式不需要清空了
-                this.pageNo = 1;
-                this.loadBlogContent();
-            },*/
-            nextPage: function (){
-                if(this.pageNo == this.pages){
-                    alert("没有更多了...")
-                    return;
-                }
-                this.pageNo++;
-                this.loadBlogContent();
-            },
-            /*loadBlogContent:function (){
-                var that = this;
-                axios.get("/api/blog/load").then(function (res) {
-                    that.blogList = res.data;
-                });
-            }*/
-            loadBlogContent: function (){
-                var that = this;
-                var pageNo = that.pageNo;//1
-                var pageSize = this.pageSize;//2
-                var cid = this.cid;
-                axios.get("/api/blog/load?pageNo="+pageNo+"&pageSize="+pageSize+"&cid="+cid).then(function (res) {
-                    var blogPage = res.data;
-                    //that.blogList = blogPage.records;//覆盖式
-                    that.blogList = that.blogList.concat(blogPage.records);//累加式
-                    that.total = blogPage.total;
-                    that.pages = blogPage.pages;
-                });
-            }
-        }
-    })
-</script>
+<script src="/js/index.js"></script>
+<script>ksdLoading("loading",1)</script>
 </body>
 </html>

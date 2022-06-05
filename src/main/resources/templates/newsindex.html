@@ -64,15 +64,19 @@
         </div>
         <!---->
         <div  id="square-item-container" class="square-item-container">
-            <div  v-for="(blog,index) in blogList" class="square-item-detail resource-item-hover">
-                <div  class="square-item-wrapper"
-                      :style="'background: url('+blog.img+') 0% 0% / 100% 100%;'"></div>
-                <div  class="square-item-desc p5">
-                    <span  class="square-item-name truncate"> {{blog.title}} </span>
-                    <span  class="square-item-count">
-         <svg  width="1em" height="1em" viewbox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="font-size: inherit; transform: rotate(0deg);">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.11011 6.00338L9.36465 6.25659C9.48212 6.37344 9.48212 6.56288 9.36465 6.67973L7.42392 8.61025C7.18898 8.84394 6.80808 8.84394 6.57315 8.61025L4.63239 6.6797C4.51492 6.56286 4.51492 6.37341 4.63239 6.25656L4.88699 6.0033C5.00446 5.88645 5.19491 5.88645 5.31237 6.0033L6.51772 7.2023L6.51728 2.30172C6.51726 2.13647 6.65191 2.0025 6.81803 2.00248L7.17806 2.00244C7.34418 2.00242 7.47887 2.13637 7.47888 2.30162L7.47933 7.20242L8.68472 6.00338C8.80219 5.88654 8.99264 5.88654 9.11011 6.00338ZM10.9983 10.9973H3.00195V8.29989C3.00195 8.13421 2.86764 7.99989 2.70195 7.99989H2.30195C2.13627 7.99989 2.00195 8.13421 2.00195 8.29989V11.3973C2.00195 11.7287 2.27058 11.9973 2.60195 11.9973H11.3983C11.7297 11.9973 11.9983 11.7287 11.9983 11.3973V8.29989C11.9983 8.13421 11.864 7.99989 11.6983 7.99989H11.2983C11.1326 7.99989 10.9983 8.13421 10.9983 8.29989V10.9973Z" fill="currentcolor"></path>
-         </svg><span > 1215 </span></span>
+            <div v-for="(blog,index) in blogList " class="square-item-detail resource-item-hover">
+                <a :href="'/detail/'+blog.id" :title="blog.title" target="_blank" style="color: #fff"><div class="square-item-wrapper" :style="'background: url('+blog.img+') 0% 0% / 100% 100%;'"></div></a>
+                <div class="square-item-desc p5">
+                    <a :href="'/detail/'+blog.id" :title="blog.title" target="_blank" style="color: #fff">
+                        <span class="square-item-name truncate">{{blog.title}} </span>
+                        <span class="square-item-count">
+            <svg width="1em" height="1em" viewbox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 style="font-size: inherit; transform: rotate(0deg);">
+             <path fill-rule="evenodd" clip-rule="evenodd"
+                   d="M9.11011 6.00338L9.36465 6.25659C9.48212 6.37344 9.48212 6.56288 9.36465 6.67973L7.42392 8.61025C7.18898 8.84394 6.80808 8.84394 6.57315 8.61025L4.63239 6.6797C4.51492 6.56286 4.51492 6.37341 4.63239 6.25656L4.88699 6.0033C5.00446 5.88645 5.19491 5.88645 5.31237 6.0033L6.51772 7.2023L6.51728 2.30172C6.51726 2.13647 6.65191 2.0025 6.81803 2.00248L7.17806 2.00244C7.34418 2.00242 7.47887 2.13637 7.47888 2.30162L7.47933 7.20242L8.68472 6.00338C8.80219 5.88654 8.99264 5.88654 9.11011 6.00338ZM10.9983 10.9973H3.00195V8.29989C3.00195 8.13421 2.86764 7.99989 2.70195 7.99989H2.30195C2.13627 7.99989 2.00195 8.13421 2.00195 8.29989V11.3973C2.00195 11.7287 2.27058 11.9973 2.60195 11.9973H11.3983C11.7297 11.9973 11.9983 11.7287 11.9983 11.3973V8.29989C11.9983 8.13421 11.864 7.99989 11.6983 7.99989H11.2983C11.1326 7.99989 10.9983 8.13421 10.9983 8.29989V10.9973Z"
+                   fill="currentcolor"></path>
+            </svg><span> 1215 </span></span>
+                    </a>
                 </div>
             </div>
         </div>

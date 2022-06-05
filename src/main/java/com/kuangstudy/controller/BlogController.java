@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @RestController
+//异步里面跳页面是无法实现的
 @Slf4j
 public class BlogController {
 

@@ -1,12 +1,6 @@
 package com.kuangstudy.config.mybatis;
 
-import com.kuangstudy.entity.User;
-import com.kuangstudy.service.blog.BlogServiceImpl;
-import com.kuangstudy.service.blog.IBlogService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author 飞哥
@@ -18,8 +12,4 @@ import org.springframework.web.client.RestTemplate;
  */
 @Configuration
 public class ApplicationContextConfiguration {
-
-
-
-
 }
